@@ -8,11 +8,13 @@ from typing import Optional
 class FileCreationRequest(BaseModel):
     """Request model for file creation agent."""
     task: str = Field(..., description="Task to give to the file creation agent (e.g., 'Create a project summary markdown file named summary.md')")
+    session_id: str = Field(default="default", description="Session ID for tracking file metadata")
 
 
 class FileEditingRequest(BaseModel):
     """Request model for file editing agent."""
     task: str = Field(..., description="Task to give to the file editing agent (e.g., 'Open summary.md and append a new section about risks')")
+    session_id: str = Field(default="default", description="Session ID for tracking file metadata")
 
 
 class FileAgentResponse(BaseModel):

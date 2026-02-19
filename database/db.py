@@ -384,6 +384,38 @@ class DatabaseManager:
                 return True
             return False
 
+    def update_file_edited_at(
+            self,
+            session_id: str,
+            filename: str,
+            file_size: Optional[int] = None
+    ) -> bool:
+        """
+        Update file edited_at timestamp and optionally file_size.
+
+        Args:
+            session_id: Session identifier
+            filename: File name
+            file_size: Optional file size in bytes (will be updated if provided)
+
+        Returns:
+            bool: Success status
+        """
+        with self.get_session() as session:
+            file_meta = session.query(WorkspaceFileMetadata) \
+                .filter(
+                WorkspaceFileMetadata.session_id == session_id,
+                WorkspaceFileMetadata.filename == filename
+            ) \
+                .first()
+
+            if file_meta:
+                file_meta.edited_at = datetime.utcnow()
+                if file_size is not None:
+                    file_meta.file_size = file_size
+                return True
+            return False
+
     def delete_file_metadata(
             self,
             session_id: str,

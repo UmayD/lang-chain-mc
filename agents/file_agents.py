@@ -1,6 +1,7 @@
 """
 File management agents for creating and editing files in the workspace.
 """
+from typing import Optional
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from langsmith import traceable
@@ -13,7 +14,7 @@ from utils.settings import (
 
 
 @traceable(name="file_creation_agent", tags=["file-agent", "file-creation", "lang-chain-mc"])
-def get_file_creation_agent(model_name: str = "gpt-4o-mini"):
+def get_file_creation_agent(model_name: str = "gpt-4o-mini", session_id: Optional[str] = None):
     """
     Creates and returns a LangGraph agent specialized for file creation.
     
@@ -22,6 +23,7 @@ def get_file_creation_agent(model_name: str = "gpt-4o-mini"):
     
     Args:
         model_name: The model name to use for the LLM (default: "gpt-4o-mini")
+        session_id: Optional session ID for database tracking of created files
     
     Returns:
         The agent executor with file creation tools
@@ -43,7 +45,7 @@ def get_file_creation_agent(model_name: str = "gpt-4o-mini"):
         }
     )
 
-    tools = get_file_tools()
+    tools = get_file_tools(session_id=session_id)
 
     # Get system prompt for file creator
     system_prompt = SYSTEM_PROMPTS.get("file_creator", SYSTEM_PROMPTS["general_assistant"])
@@ -59,7 +61,7 @@ def get_file_creation_agent(model_name: str = "gpt-4o-mini"):
 
 
 @traceable(name="file_editing_agent", tags=["file-agent", "file-editing", "lang-chain-mc"])
-def get_file_editing_agent(model_name: str = "gpt-4o-mini"):
+def get_file_editing_agent(model_name: str = "gpt-4o-mini", session_id: Optional[str] = None):
     """
     Creates and returns a LangGraph agent specialized for file editing.
     
@@ -68,6 +70,7 @@ def get_file_editing_agent(model_name: str = "gpt-4o-mini"):
     
     Args:
         model_name: The model name to use for the LLM (default: "gpt-4o-mini")
+        session_id: Optional session ID for database tracking of created files
     
     Returns:
         The agent executor with file editing tools
@@ -89,7 +92,7 @@ def get_file_editing_agent(model_name: str = "gpt-4o-mini"):
         }
     )
 
-    tools = get_file_tools()
+    tools = get_file_tools(session_id=session_id)
 
     # Get system prompt for file editor
     system_prompt = SYSTEM_PROMPTS.get("file_editor", SYSTEM_PROMPTS["general_assistant"])

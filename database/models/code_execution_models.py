@@ -37,6 +37,7 @@ class WorkspaceFileMetadata(Base):
     description = Column(Text, nullable=True)
     execution_id = Column(Integer, ForeignKey("code_executions.id"), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
+    edited_at = Column(DateTime, nullable=True, index=True)
 
     # Relationship
     execution = relationship("CodeExecution", back_populates="workspace_files")

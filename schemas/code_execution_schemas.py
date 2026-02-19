@@ -31,6 +31,7 @@ class WorkspaceFile(BaseModel):
     description: Optional[str] = Field(None, description="File description/purpose")
     execution_id: Optional[int] = Field(None, description="Related execution ID")
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    edited_at: Optional[datetime] = Field(None, description="Last edit timestamp")
 
     class Config:
         from_attributes = True

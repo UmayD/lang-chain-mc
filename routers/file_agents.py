@@ -36,7 +36,7 @@ async def trigger_file_creation(request: FileCreationRequest):
     based on user requests.
     """
     try:
-        agent = get_file_creation_agent()
+        agent = get_file_creation_agent(session_id=request.session_id)
         
         # Invoke agent with user task
         result = agent.invoke({
@@ -80,7 +80,7 @@ async def trigger_file_editing(request: FileEditingRequest):
     and updates them according to user instructions.
     """
     try:
-        agent = get_file_editing_agent()
+        agent = get_file_editing_agent(session_id=request.session_id)
         
         # Invoke agent with user task
         result = agent.invoke({

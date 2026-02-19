@@ -212,3 +212,5 @@ workspace/*
 
 # Docker
 .docker/
+
+*.db
